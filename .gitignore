@@ -1,1 +1,7 @@
 venv
+backend/.env
+backend/__pycache__
+utility/__pycache__
+utility/build
+utility/dist
+utility/main.spec

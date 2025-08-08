@@ -2,14 +2,18 @@ from sqlalchemy import Column, String, DateTime, Integer, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from database import Base
+import uuid
+
+def generate_uuid():
+    return str(uuid.uuid4())
 
 class Machine(Base):
     __tablename__ = "machines"
-    id = Column(String, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True, default = generate_uuid)
     hostname = Column(String)
     os_type = Column(String)
-    last_seen = Column(DateTime, default = datetime.now(timezone.utc))
-    reports = relationship("Health", back_populates="machine")
+    last_check = Column(DateTime, default = datetime.now(timezone.utc))
+    healthchecks = relationship("Health", back_populates="machine")
 
 class Health(Base):
     __tablename__ = "health"
@@ -21,5 +25,5 @@ class Health(Base):
     antivirus_active = Column(Boolean)
     inactivity_timeout = Column(Integer)
 
-    machine = relationship("Machine", back_populates="health")
+    machine = relationship("Machine", back_populates="healthchecks")
 
