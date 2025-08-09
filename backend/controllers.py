@@ -13,7 +13,9 @@ def create_health_check(db: Session, report: HealthCheckIn):
 
 
     machine.last_check = datetime.now(timezone.utc)
-
+    
+    db.query(Health).filter(Health.machine_id == machine.id).delete()
+    
     health_check = Health(
         machine_id = machine.id,
         disk_encrypted = report.disk_encrypted,
@@ -31,4 +33,3 @@ def create_health_check(db: Session, report: HealthCheckIn):
 
 def get_all_machines(db: Session):
     return db.query(Machine).all()
-

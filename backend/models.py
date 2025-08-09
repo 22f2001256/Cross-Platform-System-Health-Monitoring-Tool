@@ -14,6 +14,7 @@ class Machine(Base):
     os_type = Column(String)
     last_check = Column(DateTime, default = datetime.now(timezone.utc))
     healthchecks = relationship("Health", back_populates="machine")
+    
 
 class Health(Base):
     __tablename__ = "health"

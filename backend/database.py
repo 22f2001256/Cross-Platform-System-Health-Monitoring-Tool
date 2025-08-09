@@ -10,6 +10,6 @@ db_path = DATABASE_URL.replace("sqlite:///", "")
 db_dir = os.path.dirname(db_path)
 os.makedirs(db_dir, exist_ok=True)
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 sessionLocal = sessionmaker(bind = engine, autocommit=False, autoflush=False)
 Base = declarative_base()

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from database import engine, sessionLocal
 from sqlalchemy.orm import Session
 from models import Base
@@ -8,6 +9,13 @@ import controllers
 Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # React dev server
+    allow_credentials=True,
+    allow_methods=["*"],  # GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],  # All headers
+)
 
 def get_db():
     db = sessionLocal()
